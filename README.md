@@ -1,16 +1,29 @@
-# bitcoin_ticker
+# Bitcoin Ticker
 
-a crypto currency price checking app.
+a live bitcoin price checking app.
 
-## Getting Started
+# Preview
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+<a href="https://ibb.co/kmWynSj"><img src="" alt="Screenshot-1576067363" border="0"></a>
+<a href="https://ibb.co/Xx7Ykqw"><img src="" alt="Screenshot-1576067366" border="0"></a>
+<a href="https://ibb.co/ySD6Z1j"><img src="" alt="Screenshot-1576067392" border="0"></a>
+<a href="https://ibb.co/1XbsB20"><img src="" alt="Screenshot-1576067449" border="0"></a>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://i.ibb.co/KK3GZrd/Screenshot-1576067363.png" width="360" height="600" />
+<img src="https://i.ibb.co/k24m6td/Screenshot-1576067366.png" width="360" height="600" />
+<img src="https://i.ibb.co/VmdgzZ4/Screenshot-1576067392.png" width="360" height="600" />
+<img src="https://i.ibb.co/FYnsc7h/Screenshot-1576067449.png" width="360" height="600" />
+
+
+
+# What I've learned developing this app 
+
+- Use the DropdownButton Widget from Material design.
+- USe Cupertino Widgets in your app.
+- Check the platform your app is being run on to customise the UI for that platform.
+- FutureBuilder class and SpinKit package.
+- Future , async , await , with.
+- Revise previous concepts.
+

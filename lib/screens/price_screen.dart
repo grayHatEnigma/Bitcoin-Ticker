@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bitcoin_ticker/utilities/coin.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -26,7 +28,6 @@ class _PriceScreenState extends State<PriceScreen>
     setState(() {
       price = dataPrice;
     });
-
     return dataPrice;
   }
 
@@ -50,11 +51,13 @@ class _PriceScreenState extends State<PriceScreen>
                     ),
                   ),
                   Text(
-                    '${price.toStringAsFixed(0)} $selectedCurrency',
+                    '${FlutterMoneyFormatter(amount: price).output.withoutFractionDigits}  $selectedCurrency',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 44,
                         color: Colors.black,
-                        fontFamily: 'Cutive'),
+                        fontFamily: 'Cutive',
+                        textBaseline: TextBaseline.alphabetic),
                   ),
                   Container(
                     height: 150.0,
@@ -78,7 +81,7 @@ class _PriceScreenState extends State<PriceScreen>
 
   /// build end
 
-  ///  Picker
+  ///  Picker Method
   CupertinoPicker iosPicker() {
     List<Text> cupertinoItems = List();
     for (String e in currenciesList) {
@@ -119,10 +122,3 @@ class _PriceScreenState extends State<PriceScreen>
 //    },
 //  );
 //} // androidPicker
-
-/*
-const spinkit = SpinKitRotatingCircle(
-  color: Colors.white,
-  size: 50.0,
-);
- */
