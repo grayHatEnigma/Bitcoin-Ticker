@@ -21,47 +21,64 @@ class _PriceScreenState extends State<PriceScreen>
     getPrice();
   }
 
-  void getPrice() async {
-    var data = await coinData.getPrice(currency: selectedCurrency);
+  Future getPrice() async {
+    var dataPrice = await coinData.getPrice(currency: selectedCurrency);
     setState(() {
-      price = data;
+      price = dataPrice;
     });
 
-    print(price);
+    return dataPrice;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Image(
-              image: AssetImage('images/bitcoin.png'),
-              width: 100,
-              height: 100,
-            ),
-          ),
-          Text(
-            '${price.toStringAsFixed(0)} $selectedCurrency',
-            style: TextStyle(
-                fontSize: 50, color: Colors.black, fontFamily: 'Cutive'),
-          ),
-          Container(
-            height: 150.0,
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
-            child: iosPicker(),
-          ),
-        ],
-      ),
+      body: FutureBuilder(
+          future: getPrice(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Image(
+                      image: AssetImage('images/bitcoin.png'),
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                  Text(
+                    '${price.toStringAsFixed(0)} $selectedCurrency',
+                    style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.black,
+                        fontFamily: 'Cutive'),
+                  ),
+                  Container(
+                    height: 150.0,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(bottom: 30.0),
+                    color: Colors.lightBlue,
+                    child: iosPicker(),
+                  ),
+                ],
+              );
+            }
+            return Center(
+              child: SpinKitFadingCircle(
+                color: Colors.lightBlue,
+                size: 70.0,
+              ),
+            );
+          }),
     );
-  } // build
+  }
 
+  /// build end
+
+  ///  Picker
   CupertinoPicker iosPicker() {
     List<Text> cupertinoItems = List();
     for (String e in currenciesList) {
@@ -81,6 +98,7 @@ class _PriceScreenState extends State<PriceScreen>
   } // iosPicker
 } //class
 
+/// Code Archive
 //DropdownButton androidPicker() {
 //  List<DropdownMenuItem<String>> dropDownItems = List();
 //  for (String e in currenciesList) {
@@ -101,3 +119,10 @@ class _PriceScreenState extends State<PriceScreen>
 //    },
 //  );
 //} // androidPicker
+
+/*
+const spinkit = SpinKitRotatingCircle(
+  color: Colors.white,
+  size: 50.0,
+);
+ */
