@@ -1,4 +1,3 @@
-import 'package:bitcoin_ticker/services/network_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bitcoin_ticker/utilities/coin.dart';
@@ -12,102 +11,56 @@ class PriceScreen extends StatefulWidget {
 class _PriceScreenState extends State<PriceScreen>
     with SingleTickerProviderStateMixin {
   // Variables
-  Future<double> priceData;
   String selectedCurrency = currenciesList.first;
+  CoinData coinData = CoinData();
   double price = 0;
-  NetworkHelper networkHelper;
 
   @override
   void initState() {
     super.initState();
-    networkHelper = NetworkHelper();
-    priceData = getPrices();
+    getPrice();
+  }
+
+  void getPrice() async {
+    var data = await coinData.getPrice(currency: selectedCurrency);
+    setState(() {
+      price = data;
+    });
+
+    print(price);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Coin Ticker',
-                style: TextStyle(fontSize: 25),
-              ),
-              Icon(
-                Icons.attach_money,
-                color: Colors.green[900],
-              ),
-            ],
-          )),
-      body: FutureBuilder(
-        future: priceData,
-        // you should put here your method that call your web service
-        builder: (context, snapshot) {
-          /// The snapshot data type have to be same of the result of your web service method
-          if (snapshot.hasData) {
-            /// When the result of the future call respond and has data show that data
-            priceData.then((value) => price = value);
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-                    child: Card(
-                      color: Colors.lightBlueAccent,
-                      elevation: 5.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 28.0),
-                        child: Text(
-                          '1 BTC = ${price.toStringAsFixed(2)} $selectedCurrency',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )),
-                Container(
-                  height: 150.0,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(bottom: 30.0),
-                  color: Colors.lightBlue,
-                  child: iosPicker(),
-                ),
-              ],
-            );
-          }
-
-          /// While is no data show this
-          return Center(
-            child: SpinKitCircle(
-              color: Colors.lightBlue,
-              size: 70.0,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: Image(
+              image: AssetImage('images/bitcoin.png'),
+              width: 100,
+              height: 100,
             ),
-          );
-        },
+          ),
+          Text(
+            '${price.toStringAsFixed(0)} $selectedCurrency',
+            style: TextStyle(
+                fontSize: 50, color: Colors.black, fontFamily: 'Cutive'),
+          ),
+          Container(
+            height: 150.0,
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(bottom: 30.0),
+            color: Colors.lightBlue,
+            child: iosPicker(),
+          ),
+        ],
       ),
     );
   } // build
-
-  Future<double> getPrices() async {
-    var btc =
-        await networkHelper.getPrice(crypto: 'BTC', currency: selectedCurrency);
-
-    setState(() {
-      price = btc['averages']['day'];
-    });
-    return btc['averages']['day'];
-  }
 
   CupertinoPicker iosPicker() {
     List<Text> cupertinoItems = List();
@@ -119,9 +72,9 @@ class _PriceScreenState extends State<PriceScreen>
       backgroundColor: Colors.lightBlue,
       itemExtent: 32,
       onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
         selectedCurrency = currenciesList[selectedIndex];
-        getPrices();
+        print(selectedCurrency);
+        getPrice();
       },
       children: cupertinoItems,
     );

@@ -24,3 +24,17 @@ flutter:
 
 
   uses-material-design: true
+
+  assets:
+    - images/
+
+  fonts:
+
+    - family: VT323
+      fonts:
+        - asset: fonts/VT323-Regular.ttf
+
+
+    - family: Cutive
+      fonts:
+        - asset: fonts/Cutive-Regular.ttf

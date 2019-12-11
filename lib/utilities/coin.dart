@@ -1,29 +1,18 @@
-import 'package:bitcoin_ticker/services/network_helper.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 const List<String> currenciesList = [
-  'AUD',
-  'BRL',
-  'CAD',
-  'CNY',
+  'USD',
+  'EGP',
   'EUR',
   'GBP',
-  'HKD',
-  'IDR',
-  'ILS',
-  'INR',
-  'JPY',
-  'MXN',
-  'NOK',
-  'NZD',
-  'PLN',
-  'RON',
-  'RUB',
-  'SEK',
-  'SGD',
-  'USD',
-  'ZAR'
+  'SAR',
+  'AED',
+  'KWD'
 ];
 
+const String btc = 'BTC';
 const List<String> cryptoList = [
   'BTC',
   'ETH',
@@ -31,27 +20,17 @@ const List<String> cryptoList = [
 ];
 
 class CoinData {
-  NetworkHelper networkHelper = NetworkHelper();
-
-  Future<dynamic> getBTCPrice(String selectedCurrency) async {
-    var btc =
-        await networkHelper.getPrice(crypto: 'BTC', currency: selectedCurrency);
-
-    return btc['averages']['day'];
-  } // BTC
-
-  Future<dynamic> getETHPrice(String selectedCurrency) async {
-    var eth =
-        await networkHelper.getPrice(crypto: 'ETH', currency: selectedCurrency);
-
-    return eth['averages']['day'];
-  } // ETH
-
-  Future<dynamic> getLTCPrice(String selectedCurrency) async {
-    var ltc =
-        await networkHelper.getPrice(crypto: 'LTC', currency: selectedCurrency);
-
-    return ltc['averages']['day'];
-  } // LTC
-
+  Future getPrice({@required String currency}) async {
+    String url = 'https://api.coindesk.com/v1/bpi/currentprice/$currency.json';
+    try {
+      http.Response response = await http.get(url);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        return data['bpi'][currency]['rate_float'];
+      }
+    } catch (error) {
+      print('error has occured while fetching the data code: $error');
+      return 0;
+    }
+  }
 }
