@@ -4,13 +4,6 @@ a live bitcoin price checking app.
 
 # Preview
 
-
-<a href="https://ibb.co/kmWynSj"><img src="" alt="Screenshot-1576067363" border="0"></a>
-<a href="https://ibb.co/Xx7Ykqw"><img src="" alt="Screenshot-1576067366" border="0"></a>
-<a href="https://ibb.co/ySD6Z1j"><img src="" alt="Screenshot-1576067392" border="0"></a>
-<a href="https://ibb.co/1XbsB20"><img src="" alt="Screenshot-1576067449" border="0"></a>
-
-
 <img src="https://i.ibb.co/KK3GZrd/Screenshot-1576067363.png" width="360" height="600" />
 <img src="https://i.ibb.co/k24m6td/Screenshot-1576067366.png" width="360" height="600" />
 <img src="https://i.ibb.co/VmdgzZ4/Screenshot-1576067392.png" width="360" height="600" />
