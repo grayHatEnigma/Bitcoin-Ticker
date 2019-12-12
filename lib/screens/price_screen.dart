@@ -16,6 +16,7 @@ class _PriceScreenState extends State<PriceScreen>
   String selectedCurrency = currenciesList.first;
   CoinData coinData = CoinData();
   double price = 0;
+  bool isWaiting = true;
 
   @override
   void initState() {
@@ -23,19 +24,22 @@ class _PriceScreenState extends State<PriceScreen>
     getPrice();
   }
 
-  Future getPrice() async {
+  /// The Magic Function all the app magic is here :D !2
+  void getPrice() async {
+    isWaiting = true;
     var dataPrice = await coinData.getPrice(currency: selectedCurrency);
+    isWaiting = false;
+    print('debugging: new http request - done');
     setState(() {
       price = dataPrice;
     });
-    return dataPrice;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: getPrice(),
+          future: coinData.getPrice(currency: selectedCurrency),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
@@ -50,15 +54,20 @@ class _PriceScreenState extends State<PriceScreen>
                       height: 100,
                     ),
                   ),
-                  Text(
-                    '${FlutterMoneyFormatter(amount: price).output.withoutFractionDigits}  $selectedCurrency',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 44,
-                        color: Colors.black,
-                        fontFamily: 'Cutive',
-                        textBaseline: TextBaseline.alphabetic),
-                  ),
+                  isWaiting
+                      ? SpinKitFadingCircle(
+                          color: Colors.lightBlue,
+                          size: 70.0,
+                        )
+                      : Text(
+                          '${FlutterMoneyFormatter(amount: price).output.withoutFractionDigits}  $selectedCurrency',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 44,
+                            color: Colors.black,
+                            fontFamily: 'Cutive',
+                          ),
+                        ),
                   Container(
                     height: 150.0,
                     alignment: Alignment.center,
@@ -100,25 +109,3 @@ class _PriceScreenState extends State<PriceScreen>
     );
   } // iosPicker
 } //class
-
-/// Code Archive
-//DropdownButton androidPicker() {
-//  List<DropdownMenuItem<String>> dropDownItems = List();
-//  for (String e in currenciesList) {
-//    dropDownItems.add(DropdownMenuItem(
-//      child: Text(e),
-//      value: e,
-//    ));
-//  }
-//  return DropdownButton(
-//    value: selectedCurrency,
-//    items: dropDownItems,
-//    onChanged: (value) {
-//      setState(
-//            () {
-//          selectedCurrency = value;
-//        },
-//      );
-//    },
-//  );
-//} // androidPicker
