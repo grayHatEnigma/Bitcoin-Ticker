@@ -20,7 +20,8 @@ const List<String> cryptoList = [
 ];
 
 class CoinData {
-  Future getPrice({@required String currency}) async {
+  Future getPrice({String caller, @required String currency}) async {
+    print('debugging: new http request from $caller - start');
     String url = 'https://api.coindesk.com/v1/bpi/currentprice/$currency.json';
     try {
       http.Response response = await http.get(url);

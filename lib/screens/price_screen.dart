@@ -27,7 +27,8 @@ class _PriceScreenState extends State<PriceScreen>
   /// The Magic Function all the app magic is here :D !2
   void getPrice() async {
     isWaiting = true;
-    var dataPrice = await coinData.getPrice(currency: selectedCurrency);
+    var dataPrice = await coinData.getPrice(
+        caller: 'getPrice function', currency: selectedCurrency);
     isWaiting = false;
     print('debugging: new http request - done');
     setState(() {
@@ -39,7 +40,8 @@ class _PriceScreenState extends State<PriceScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: coinData.getPrice(currency: selectedCurrency),
+          future: coinData.getPrice(
+              caller: 'FutureBuilder object', currency: selectedCurrency),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
